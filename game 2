@@ -1,0 +1,77 @@
+<!doctype html>
+
+<body>
+    <canvas id="gameCanvas" width="860" height="600"></canvas>
+    <script>
+        var canvas, canvasContext;
+
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+
+            document.addEventListener('keydown',keyPressed);
+            document.addEventListener('keyup',keyReleased);
+
+            setInterval(mainloop, 1000 / 50);
+
+        }
+
+        var playerXpos = 400;
+        var playerYpos = 588;
+        const PLAYER_WIDTH = 72;
+        const PLAYER_HEIGHT = 12;
+        var playerXspeed = 15;
+        var playerYspeed = 10;
+
+        var leftKeyPressed = false;
+        var rightKeyPressed = false;
+
+        const LEFT_KEY = 37;
+        const RIGHT_KEY = 39;
+
+
+        function mainloop() {
+            colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+            colorRect(playerXpos, playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT, 'red'); // player
+
+
+            playerMove();
+        }
+
+
+
+        function keyPressed(evt) {
+            if (evt.keyCode == LEFT_KEY) { //
+                leftKeyPressed = true;
+            }
+            if (evt.keyCode == RIGHT_KEY) { //
+                rightKeyPressed = true;
+            }
+        }
+
+        function keyReleased(evt) {
+            if (evt.keyCode == LEFT_KEY) { //
+                leftKeyPressed = false;
+            }
+            if (evt.keyCode == RIGHT_KEY) { //
+                rightKeyPressed = false;
+            }
+        }
+
+        function playerMove() {
+            
+            if (leftKeyPressed && playerXpos > 0) {
+                playerXpos -= playerXspeed
+            }
+            if (rightKeyPressed && playerXpos + PLAYER_WIDTH < canvas.width) {
+                playerXpos += playerXspeed;
+            }
+        }
+
+        function colorRect(x, y, w, h, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.fillRect(x, y, w, h);
+        }
+
+    </script>
+</body>
