@@ -9,8 +9,8 @@
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
 
-            document.addEventListener('keydown',keyPressed);
-            document.addEventListener('keyup',keyReleased);
+            document.addEventListener('keydown', keyPressed);
+            document.addEventListener('keyup', keyReleased);
 
             setInterval(mainloop, 1000 / 50);
 
@@ -20,14 +20,14 @@
         var playerYpos = 588;
         const PLAYER_WIDTH = 72;
         const PLAYER_HEIGHT = 12;
-        var playerXspeed = 20;
+        var playerXspeed = 15;
         var playerYspeed = 10;
-        
+
         var objXpos = 0;
         var objYpos = 0;
         var OBJ_SIZE = 10;
-        var objXspeed = Math.floor(Math.random()*(12 - 4)) + 4;
-        var objYspeed = Math.floor(Math.random()*(12 - 4)) + 4;
+        var objXspeed = Math.floor(Math.random() * (12 - 4)) + 4;
+        var objYspeed = Math.floor(Math.random() * (12 - 4)) + 4;
 
         var leftKeyPressed = false;
         var rightKeyPressed = false;
@@ -35,20 +35,49 @@
         const LEFT_KEY = 37;
         const RIGHT_KEY = 39;
 
-        
-       
-        
-        
-        function mainloop() {
-            colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-            colorRect(playerXpos, playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT, 'red'); // player
-            colorRect(objXpos, objYpos, OBJ_SIZE, OBJ_SIZE, 'white'); // player
 
+        var userName = '';
 
-            playerMove();
-            objMove();
+        while (userName == '' || userName == null) {
+            userName = prompt('what is your name?');
         }
 
+        //        var difficulty = prompt('how hard do you want it?', '1');
+        //
+        //        difficulty = Number(difficulty)
+        //        var gameSpeed = 0;
+        //
+        //        if (difficulty == 1) {
+        //            gameSpeed = 2
+        //        } else {
+        //            gameSpeed = 20;
+        //        }
+
+
+
+        var gameRun = true;
+        var settingUp = true;
+
+        function mainloop() {
+            if (gameRun) {
+                if (settingUp) {
+                    settingUp = false;
+                }
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+                colorRect(playerXpos, playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT, 'red'); // player
+                colorRect(objXpos, objYpos, OBJ_SIZE, OBJ_SIZE, 'white'); // player
+
+
+                playerMove();
+                objMove();
+
+                colorText('gamePlay', 50, 50, '20px Arial', 'green');
+
+            } else {
+                colorRect(0, 0, canvas.width, canvas.height, 'black');
+                colorText('gameOver', 50, 50, '20px Arial', 'red');
+            }
+        }
 
 
         function keyPressed(evt) {
@@ -70,7 +99,7 @@
         }
 
         function playerMove() {
-            
+
             if (leftKeyPressed && playerXpos > 0) {
                 playerXpos -= playerXspeed
             }
@@ -78,32 +107,40 @@
                 playerXpos += playerXspeed;
             }
         }
-        
-        function objMove(){
+
+        function objMove() {
             objXpos += objXspeed;
             objYpos += objYspeed;
-            
-            if(objXpos + OBJ_SIZE > playerXpos && objXpos < playerXpos + PLAYER_WIDTH && objYpos + OBJ_SIZE > playerYpos){
-               objYspeed *= -1;
+
+            if (objXpos + OBJ_SIZE > playerXpos && objXpos < playerXpos + PLAYER_WIDTH && objYpos + OBJ_SIZE > playerYpos) {
+                objYspeed *= -1;
             }
-            
-            if(objXpos + OBJ_SIZE > canvas.width){  
+
+            if (objXpos + OBJ_SIZE > canvas.width) {
                 objXspeed *= -1;
                 console.log('ouch')
-            // need to get bouncing off edge side
+                // need to get bouncing off edge side
             }
-            if(objXpos < 0){
-               objXspeed *= -1;
+            if (objXpos < 0) {
+                objXspeed *= -1;
             }
-            if(objYpos < 0){
-               objYspeed *= -1;
+            if (objYpos < 0) {
+                objYspeed *= -1;
             }
         }
+
+
+
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
-        
-        
+
+        function colorText(msg, x, y, f, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.font = f;
+            canvasContext.fillText(msg, x, y);
+        }
+
     </script>
 </body>
