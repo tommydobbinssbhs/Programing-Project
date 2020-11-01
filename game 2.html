@@ -12,6 +12,10 @@
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
 
+            for(var i =0; i < 20; i++){
+                makeEnemies();
+            }
+            
             setInterval(mainloop, 1000 / 50);
 
         }
@@ -53,7 +57,7 @@
         //            gameSpeed = 20;
         //        }
 
-
+        var enemies = [];
 
         var gameRun = true;
         var settingUp = true;
@@ -106,6 +110,24 @@
             if (rightKeyPressed && playerXpos + PLAYER_WIDTH < canvas.width) {
                 playerXpos += playerXspeed;
             }
+        }
+        
+        function makeEnemies(){
+            var eXsize = Math.floor(Math.random()* (40 - 10))+ 10; 
+            var eXpos = Math.floor(Math.random()*(canvas.width - eXsize));
+            var eYpos = 0 + eXsize;
+            var eXspeed = Math.floor(Math.random()* (15 - 4))+ 4;
+            var eYspeed = Math.floor(Math.random()* (15 - 4))+ 4;
+            
+            var enemy = {
+                eXpos: eXpos,
+                eYpos: eYpos,
+                eXsize: eXsize,
+                eXspeed: eXspeed,
+                eYspeed: eYspeed
+            }
+            
+            enemies.push(enemy);
         }
 
         function objMove() {
